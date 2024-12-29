@@ -24,6 +24,8 @@ class App extends Component {
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
         this.switchCamera = this.switchCamera.bind(this);
+        this.switchAudio = this.switchAudio.bind(this);
+        this.switchVideo = this.switchVideo.bind(this);
         this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -71,6 +73,33 @@ class App extends Component {
                 subscribers: subscribers,
             });
         }
+    }
+
+    switchAudio(){
+        const myStream = this.state.publisher
+        if(myStream.stream.audioActive){
+            myStream.publishAudio(false);
+            console.log("Off Audio Active !")
+        } else{
+            myStream.publishAudio(true);
+            console.log("On Audio Active")
+        }
+        this.setState({
+            publisher: myStream,
+        });
+    }
+    switchVideo() {
+        const myStream = this.state.publisher
+        if (myStream.stream.videoActive) {
+            myStream.publishVideo(false);
+            console.log("Video Off");
+        } else {
+            myStream.publishVideo(true);
+            console.log("Video On");
+        }
+        this.setState({
+            publisher: myStream,
+        });
     }
 
     joinSession() {
@@ -312,7 +341,7 @@ class App extends Component {
             <footer className="footer">
                 <div className="container">
                     { this.state.publisher !== undefined ? (
-                    <CamOption streamManager={this.state.publisher}/>
+                    <CamOption streamManager={this.state.publisher} switchVideo={this.switchVideo} switchAudio={this.switchAudio} />
                     ) : null}
 
 
