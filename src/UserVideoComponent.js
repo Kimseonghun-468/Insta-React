@@ -13,31 +13,32 @@ export default class UserVideoComponent extends Component {
 
     render() {
         return (
-            <div>
+            <>
                 {this.props.streamManager !== undefined ? (
                     <>
                         <div className="streamcomponent">
                             <OpenViduVideoComponent streamManager={this.props.streamManager} />
-                            <div><p>{this.getNicknameTag()}</p></div>
-                        </div>
-                        <div className="cam-footer">
-                            <div id="userOption">
-                                <button>
-                                    {this.props.streamManager.stream.audioActive ?
-                                        <FaMicrophone size={24} /> : <FaMicrophoneSlash size={24} />}
-                                </button>
-                                <button>
-                                    {this.props.streamManager.stream.videoActive ? (
-                                        <FaVideo size={24} />
-                                    ) : (
-                                        <FaVideoSlash size={24} />
-                                    )}
-                                </button>
+                            <p>{this.getNicknameTag()}</p>
+                            <div className="cam-footer">
+                                <div id="userOption">
+                                    <button>
+                                        {this.props.streamManager.stream.audioActive ?
+                                            <FaMicrophone size={14} /> : <FaMicrophoneSlash size={14} />}
+                                    </button>
+                                    <button>
+                                        {this.props.streamManager.stream.videoActive ? (
+                                            <FaVideo size={14} />
+                                        ) : (
+                                            <FaVideoSlash size={14} />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
+
                     </>
                 ) : null}
-            </div>
+            </>
         );
     }
 }

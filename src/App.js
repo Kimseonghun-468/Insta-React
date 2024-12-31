@@ -19,6 +19,7 @@ class App extends Component {
             mainStreamManager: undefined,  // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
             publisher: undefined,
             subscribers: [],
+            shareScreen: undefined,
         };
 
         this.joinSession = this.joinSession.bind(this);
@@ -26,6 +27,7 @@ class App extends Component {
         this.switchCamera = this.switchCamera.bind(this);
         this.switchAudio = this.switchAudio.bind(this);
         this.switchVideo = this.switchVideo.bind(this);
+        this.startScreenShare = this.startScreenShare.bind(this);
         this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -102,6 +104,36 @@ class App extends Component {
         });
     }
 
+    startScreenShare() {
+        console.log("Start Screen Share");
+        this.OV = new OpenVidu();
+        this.setState(
+            {
+                session: this.OV.initSession(),
+            },
+            () => {
+                var mySession = this.state.session;
+                this.getToken().then((token) => {
+                    console.log("Share Screen Get Token");
+                    mySession.connect(token, { clientData: this.state.myUserName })
+                        .then(async () => {
+                            var publisher = await this.OV.initPublisherAsync("html-element-id", {videoSource: "screen"});
+                            publisher.once('accessAllowed', (event) => {
+                            mySession.publish(publisher);
+                            console.log("Share Screen publish");
+                            this.setState({
+                                shareScreen: publisher,
+                            })
+                        });
+                        publisher.once('accessDenied', (event) => {
+                            console.warn('ScreenShare: Access Denied');
+                        });
+                    }).catch((error => {
+                        console.warn('There was an error connecting to the session:', error.code, error.message);
+                    }));
+                });
+            })
+    }
     joinSession() {
         // --- 1) Get an OpenVidu object ---
 
@@ -256,7 +288,7 @@ class App extends Component {
 
         return (
             <>
-            <div className="container">
+            <div className="container-zoom">
                 {this.state.session === undefined ? (
                     <div id="join">
                         <div id="img-div">
@@ -334,6 +366,12 @@ class App extends Component {
                                         <UserVideoComponent streamManager={sub} />
                                     </div>
                                 ))}
+                                {this.state.shareScreen !== undefined ? (
+                                    <div className="stream-container" onClick={() => this.handleMainVideoStream(this.state.shareScreen)}>
+                                        <UserVideoComponent
+                                            streamManager={this.state.shareScreen} />
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                     </div>
@@ -344,6 +382,9 @@ class App extends Component {
                     { this.state.publisher !== undefined ? (
                     <CamOption streamManager={this.state.publisher} switchVideo={this.switchVideo} switchAudio={this.switchAudio} />
                     ) : null}
+                    <button onClick={this.startScreenShare}>
+                        Share Screen
+                    </button>
 
 
 

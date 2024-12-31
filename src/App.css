@@ -1,3 +1,5 @@
 .stream-container {
+	position: relative;
 	padding: 0;
+	float: left;
 }
