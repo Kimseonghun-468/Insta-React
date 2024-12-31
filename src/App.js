@@ -314,26 +314,27 @@ class App extends Component {
                                 value="Switch Camera"
                             />
                         </div>
+                        <div className="cam-container">
+                            {this.state.mainStreamManager !== undefined ? (
 
-                        {this.state.mainStreamManager !== undefined ? (
-                            <div id="main-video" className="col-md-6">
-                                <UserVideoComponent streamManager={this.state.mainStreamManager} />
-
-                            </div>
-                        ) : null}
-                        <div id="video-container" className="col-md-6">
-                            {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                                    <UserVideoComponent
-                                        streamManager={this.state.publisher} />
+                                <div id="main-container" className="main-container">
+                                    <UserVideoComponent streamManager={this.state.mainStreamManager} />
                                 </div>
                             ) : null}
-                            {this.state.subscribers.map((sub, i) => (
-                                <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                    <span>{sub.id}</span>
-                                    <UserVideoComponent streamManager={sub} />
-                                </div>
-                            ))}
+                            <div id="video-container" className="user-container">
+                                {this.state.publisher !== undefined ? (
+                                        <div className="stream-container" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                            <UserVideoComponent
+                                                streamManager={this.state.publisher} />
+                                        </div>
+                                ) : null}
+                                {this.state.subscribers.map((sub, i) => (
+                                    <div key={sub.id} className="stream-container" onClick={() => this.handleMainVideoStream(sub)}>
+                                        <span>{sub.id}</span>
+                                        <UserVideoComponent streamManager={sub} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ) : null}
