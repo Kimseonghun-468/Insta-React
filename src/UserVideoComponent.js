@@ -18,7 +18,6 @@ export default class UserVideoComponent extends Component {
                     <>
                         <div className="streamcomponent">
                             <OpenViduVideoComponent streamManager={this.props.streamManager} />
-                            <p>{this.getNicknameTag()}</p>
                             <div className="cam-footer">
                                 <div id="userOption">
                                     <button>
@@ -33,6 +32,7 @@ export default class UserVideoComponent extends Component {
                                         )}
                                     </button>
                                 </div>
+                                <p>{this.getNicknameTag()}</p>
                             </div>
                         </div>
 

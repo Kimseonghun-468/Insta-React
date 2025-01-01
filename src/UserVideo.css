@@ -6,7 +6,17 @@ video {
 }
 
 .streamcomponent p{
-    position: absolute;
     margin: 0;
+}
+
+button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+    padding: 5px;
+    cursor: pointer;
 }
 

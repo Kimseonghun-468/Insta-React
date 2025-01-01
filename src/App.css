@@ -1,5 +1,18 @@
 .stream-container {
+	width: 100%;
 	position: relative;
 	padding: 0;
 	float: left;
+	border-bottom: 10px solid #171515;
+}
+
+#userOption {
+	display: flex;
+	width : 30%;
+}
+
+.main-option {
+	width : 40%;
+	text-align: center;
+	margin-top: 10px;
 }

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import './App.css';
 import UserVideoComponent from './UserVideoComponent';
 import CamOption from './Options/camOption'
+import { MdIosShare } from "react-icons/md";
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 class App extends Component {
@@ -123,6 +124,7 @@ class App extends Component {
                             console.log("Share Screen publish");
                             this.setState({
                                 shareScreen: publisher,
+                                mainStreamManager: publisher,
                             })
                         });
                         publisher.once('accessDenied', (event) => {
@@ -366,28 +368,24 @@ class App extends Component {
                                         <UserVideoComponent streamManager={sub} />
                                     </div>
                                 ))}
-                                {this.state.shareScreen !== undefined ? (
-                                    <div className="stream-container" onClick={() => this.handleMainVideoStream(this.state.shareScreen)}>
-                                        <UserVideoComponent
-                                            streamManager={this.state.shareScreen} />
-                                    </div>
-                                ) : null}
                             </div>
                         </div>
                     </div>
                 ) : null}
             </div>
             <footer className="footer">
-                <div className="container">
+                <div className="container-zoom">
                     { this.state.publisher !== undefined ? (
-                    <CamOption streamManager={this.state.publisher} switchVideo={this.switchVideo} switchAudio={this.switchAudio} />
+                    <>
+                        <CamOption streamManager={this.state.publisher} switchVideo={this.switchVideo} switchAudio={this.switchAudio} />
+                        <div className="main-option">
+                            <button onClick={this.startScreenShare}>
+                                <MdIosShare size={30} />
+                                <p>화면 공유</p>
+                            </button>
+                        </div>
+                    </>
                     ) : null}
-                    <button onClick={this.startScreenShare}>
-                        Share Screen
-                    </button>
-
-
-
                 </div>
             </footer>
             </>
