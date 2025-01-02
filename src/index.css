@@ -78,7 +78,9 @@ nav i.fa:hover {
 	height: 624px;
 	overflow-y: scroll;
 }
-
+.user-container::-webkit-scrollbar {
+    display: none;
+}
 .vertical-center {
 	position: absolute;
 	top: 56%;
